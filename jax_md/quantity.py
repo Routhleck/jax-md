@@ -85,7 +85,7 @@ def canonicalize_force(energy_or_force_fn: Union[EnergyFn, ForceFn]) -> ForceFn:
       out_shaped = eval_shape(energy_or_force_fn, R, **kwargs)
       try:
         out_shaped = out_shaped.mantissa
-      except:
+      except Exception:
         pass
       if isinstance(out_shaped, ShapeDtypeStruct) and out_shaped.shape == ():
         _force_fn = force(energy_or_force_fn)

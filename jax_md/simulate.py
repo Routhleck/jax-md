@@ -556,10 +556,7 @@ def nose_hoover_chain(dt: float,
     ws = jnp.array(SUZUKI_YOSHIDA_WEIGHTS[sy_steps])
     def body_fn(cs, i):
       d = f32(delta.to_decimal(u.fsecond) if isinstance(delta, Quantity) else delta * ws[i % sy_steps])
-      if return_quantity:
-        return substep_fn(d, *cs), 0
-      else:
-        return substep_fn(d, *cs), 0
+      return (substep_fn(d, *cs), 0) if return_quantity else (substep_fn(d, *cs), 0)
     P, state, _ = lax.scan(body_fn,
                            (P, state, kT),
                            jnp.arange(chain_steps * sy_steps))[0]
